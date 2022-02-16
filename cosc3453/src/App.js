@@ -9,6 +9,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
+background-color: #1F262A;
 `;
 
 function App() {

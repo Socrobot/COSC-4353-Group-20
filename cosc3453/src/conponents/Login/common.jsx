@@ -17,7 +17,7 @@ box-shadow: 0px 0px 2.5px rgba(15, 15, 15, 0.19);
 
 export const ML = styled.a`
 font-size: 11px;
-color: rgba(200, 200, 200, 0.8);
+color: rgba(255, 255, 255, 0.8);
 font-weight: 500;
 text-decoration: none;
 `;
@@ -33,6 +33,7 @@ margin: 0 4px;
 export const I = styled.input`
 width: 100%;
 height: 42px;
+background: rgb(169,169,169);
 outline: none;
 border: 1px solid rgba(200, 200, 200, 0.3);
 padding: 0px 10px;
@@ -40,7 +41,7 @@ border-bottom: 1.4px solid transparent;
 transition: all 200ms ease-in-out;
 font-size: 12px;
 &::placeholder {
-    color: rgba(200, 200, 200, 1);
+    color: rgba(255, 255, 255, 1);
 }
 &:not(:last-of-type) {
     border-bottom: 1.5px solid rgba(200, 200, 200, 0.4);
