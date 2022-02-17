@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { BC, FC, I, ML, SB, BL } from "./common";
+import { BC, FC, I, ML, SB, BL } from "./commonPM";
 import { Marginer } from "../marginerTool";
-import { AccountContext } from "./accountContext";
+import { AccountContext } from "./accountContextPM";
 
 export function Signup(props) {
 
