@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { AccountContext } from "./accountContext";
 import { Signup } from "./signup";
 
+// index only styles/css 
 const BC = styled.div`
 width: 280px;
 min-height: 550px;
@@ -97,17 +98,19 @@ const ET = {
     stiffness: 30,
 };
 
+// function sent to app.js
 export function AB(props) {
     const [isExpanded, setExpanded] = useState(false);
     const [active, setActive] = useState("signin");
 
+    // animation
     const playExpandedAnimation = () => {
         setExpanded(true);
         setTimeout(() => {
             setExpanded(false);
         }, ET.duration * 1000 - 1500);
     };
-
+    // state changes for animation
     const toSignup = () => {
         playExpandedAnimation();
         setTimeout(() => {
@@ -124,6 +127,7 @@ export function AB(props) {
     
     const contextValue = {toSignup, toSignin};
 
+    //html with custom styled containers
     return (
         <AccountContext.Provider value = {contextValue}>
             <BC>

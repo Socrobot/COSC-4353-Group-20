@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+// common shared styled containers 
 export const BC = styled.div`
 width: 100%;
 display: flex;
@@ -71,4 +72,12 @@ background: linear-gradient(
 &:hover {
     filter: brightness(1.03);
 }
+`;
+
+export const EM = styled.a`
+color: #ff0000;
+font-weight: 500;
+font-size: 8px;
+z-index: 10;
+margin: 0;
 `;
