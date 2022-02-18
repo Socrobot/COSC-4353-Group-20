@@ -1,4 +1,7 @@
 import styled from "styled-components";
+//import DatePicker from "react-datepicker";
+
+//import "react-datepicker/dist/react-datepicker.css";
 
 export const BC = styled.div`
 width: 100%;
@@ -14,6 +17,56 @@ display: flex;
 flex-direction: column;
 box-shadow: 0px 0px 2.5px rgba(15, 15, 15, 0.19);
 `;
+
+
+export const DI = styled.a`
+width: 100%;
+height: 42px;
+background: rgb(169,169,169);
+outline: none;
+border: 1px solid rgba(200, 200, 200, 0.3);
+padding: 0px 10px;
+padding-top: 10px;
+border-bottom: 1.4px solid transparent;
+transition: all 200ms ease-in-out;
+font-size: 12px;
+&::placeholder {
+    color: rgba(255, 255, 255, 1);
+}
+&:not(:last-of-type) {
+    border-bottom: 1.5px solid rgba(200, 200, 200, 0.4);
+}
+&:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(9,255,0);
+}
+`;
+
+
+export const Stable = styled.table`
+width: 90%;
+display: flex;
+flex-direction: column;
+box-shadow: 0px 0px 2.5px rgba(15, 15, 15, 0.19);
+overflow: auto;
+`; 
+
+export const Sthead = styled.thead`
+width: 100%;
+display: inline-box;
+flex-direction: column;
+align-items: center;
+margin-top: 10px;
+`;
+
+export const Sbody = styled.body`
+width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+margin-top: 10px;
+`;
+
 
 export const ML = styled.a`
 font-size: 11px;
@@ -51,6 +104,78 @@ font-size: 12px;
     border-bottom: 2px solid rgb(9,255,0);
 }
 `;
+
+
+
+
+export const Str = styled.tr`
+width: 100%;
+height: 42px;
+background: rgb(169,169,169);
+outline: none;
+border: 1px solid rgba(200, 200, 200, 0.3);
+padding: 0px 10px;
+border-bottom: 1.4px solid transparent;
+transition: all 200ms ease-in-out;
+font-size: 12px;
+&::placeholder {
+    color: rgba(255, 255, 255, 1);
+}
+&:not(:last-of-type) {
+    border-bottom: 1.5px solid rgba(200, 200, 200, 0.4);
+}
+&:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(9,255,0);
+}
+`;
+
+
+export const Std = styled.td`
+
+height: 42px;
+background: rgb(169,169,169);
+outline: none;
+border: 1px solid rgba(200, 200, 200, 0.3);
+padding: 0px 10px;
+border-bottom: 1.4px solid transparent;
+transition: all 200ms ease-in-out;
+font-size: 12px;
+&::placeholder {
+    color: rgba(255, 255, 255, 1);
+}
+&:not(:last-of-type) {
+    border-bottom: 1.5px solid rgba(200, 200, 200, 0.4);
+}
+&:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(9,255,0);
+}
+`;
+
+
+export const Sth = styled.th`
+width: 100%;
+height: 42px;
+background: rgb(169,169,169);
+outline: none;
+border: 1px solid rgba(200, 200, 200, 0.3);
+padding: 0px 10px;
+border-bottom: 1.4px solid transparent;
+transition: all 200ms ease-in-out;
+font-size: 12px;
+&::placeholder {
+    color: rgba(255, 255, 255, 1);
+}
+&:not(:last-of-type) {
+    border-bottom: 1.5px solid rgba(200, 200, 200, 0.4);
+}
+&:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(9,255,0);
+}
+`;
+
 
 export const SB = styled.button`
 width: 100%;
