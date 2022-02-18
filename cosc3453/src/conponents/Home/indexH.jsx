@@ -5,6 +5,10 @@ import { motion } from "framer-motion";
 import { AccountContext } from "./accountContextH";
 import { Signup } from "./signupH";
 
+
+
+
+
 const BC = styled.div`
 width: 280px;
 min-height: 550px;
@@ -122,6 +126,8 @@ export function ABH(props) {
         }, 400);
     };
     
+
+    
     const contextValue = {toSignup, toSignin};
 
     return (
@@ -133,14 +139,14 @@ export function ABH(props) {
                     variants={BDV}
                     transition = {ET} />
                     {active === "signin" && <HC>
-                        <HT>Welcome</HT>
-                        <HT>Back</HT>
-                        <ST>Please Signin To Continue</ST>
+                        <HT>Shipping</HT>
+                        <HT>History</HT>
+                        <ST>Records of your shipping history.</ST>
                     </HC>}
                     {active === "signup" && <HC>
-                        <HT>Create</HT>
-                        <HT>Account</HT>
-                        <ST>Please Signup To Continue</ST>
+                        <HT>Fuel</HT>
+                        <HT>Quote Form</HT>
+                        <ST>Please fill out form to continue</ST>
                     </HC>}
                 </TC>
                 <IC>
@@ -148,6 +154,8 @@ export function ABH(props) {
                     {active === "signup" && <Signup />}
                 </IC>
             </BC>
+
         </AccountContext.Provider>
+        
     )
 }
