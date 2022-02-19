@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { Stable, Std, Sthead, Sbody, Str, Sth, BC, FC, I, ML, SB, BL } from "./commonH";
+import { custTh, GlobalStyle, Std, Sthead, Sbody, Str, Sth, BC, FC, I, ML, SB, BL, EM, Stable } from "./commonH";
 import { Marginer } from "../marginerTool";
 import { AccountContext } from "./accountContextH";
 import {useState} from "react";
+
 
 
 export function Login(props) {
@@ -15,6 +16,37 @@ export function Login(props) {
         { id: 4, firstName: 'Jessi', lastName: 'Glaser', email: 'jessi.glaser@test.com', role: 'User' },
         { id: 5, firstName: 'Jay', lastName: 'Bilzerian', email: 'jay.bilzerian@test.com', role: 'User' }
     ]);
+
+    const someArray = [1,2,3,4,5,6,7,8,9];
+const MyTableCompoent = () => (
+  <table >
+      <thead id="header-fixed">
+    <tr>
+      <th>ID</th>
+      <th>Shipping Date</th>
+      <th>Gallons Requested</th>
+      <th>Price</th>
+      <th>Total Amount</th>
+    </tr>
+    </thead>
+
+    {Object.values(someArray).map((value, index) => {
+      return (
+    <tbody>
+        <tr key={index}>
+          <td>{value}</td>
+          <td>{value}</td>
+          <td>{value}</td>
+          <td>{value}</td>
+          <td>{value}</td>
+        </tr>
+        </tbody>
+      );
+    })}
+  </table>
+);
+
+
 
 
     const data = React.useMemo(() =>
@@ -62,27 +94,14 @@ export function Login(props) {
 
 
     return <BC>
-        <BC className="container">
-           
-            <Stable className="table table-striped table-bordered">
-                <Sthead>
-                    <Str>
-                        <Sth>Name</Sth>
-                        <Sth>Email</Sth>
-                        <Sth>Role</Sth>
-                    </Str>
-                </Sthead>
-                <Sbody>
-                    {users && users.map(user =>
-                        <Str key={user.id}>
-                            <Std>{user.firstName} {user.lastName}</Std>
-                            <Std>{user.email}</Std>
-                            <Std>{user.role}</Std>
-                        </Str>
-                    )}
-                </Sbody>
-            </Stable>
-        </BC>
+            <Stable>
+      <GlobalStyle />
+    
+      <MyTableCompoent />
+    </Stable>
+
+
+
         <Marginer direction="vertical" margin={10} />
         <Marginer direction="vertical" margin="1.6em" />
         
