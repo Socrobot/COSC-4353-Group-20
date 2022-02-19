@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { DI, DP, BC, FC, I, ML, SB, BL } from "./commonH";
+import { DI, DP, BC, FC, I, ML, SB, BL, EM } from "./commonH";
 import { Marginer } from "../marginerTool";
 import { AccountContext } from "./accountContextH";
 import {useState} from "react";
@@ -21,12 +21,18 @@ export function Signup(props) {
   //const handleCalendarClose = () => console.log("Calendar closed");
   //const handleCalendarOpen = () => console.log("Calendar opened");
   const [values, setValues] = useState({
-    gallons: "",
+   // gallons: "",
     shipAddress: "111 address",
-    deliveryDate:"",
+    //deliveryDate:"",
     sugPrice: "",
     totAmount: "",
   });
+
+  const [gallons, setGallon] = useState("");
+  const [deliveryDate, setDelivery] = useState("");
+  const [gallonCheck, setGalCheck] = useState("");
+  const [deliveryCheck, setDateCheck] = useState("");
+
 
   const [submitted, setSubmitted] = useState(false)
 
@@ -99,6 +105,27 @@ const [buttonState, setButtonState] = useState(false)
  const [valid, setValid] = useState(false);
 
 
+ // email validation (Will include database checks further down the road)
+ const gallonInputValidation = (e) => {
+     if (gallons >= 1) {
+         setGalCheck("");
+     }
+     else{
+         setGalCheck("Please select number of gallons");
+     }
+ };
+
+ // password validation (Will include database checks further down the road)
+ const dateInputValidation = (e) => {
+     if (deliveryDate.includes("-", 2)){
+         setDateCheck("");
+         
+     }
+     else {
+         setDateCheck("Please enter date")
+     }
+     console.log(deliveryDate)
+ };
 
 
 
@@ -109,11 +136,14 @@ const [buttonState, setButtonState] = useState(false)
             min="1"
             max="100,000"
             values ={values.gallons}
-            onChange = {handleGallonInputChange} 
+           
+            onChange={e => setGallon(e.target.value)}
             placeholder="Enter number of gallons" />
+            <EM>{gallonCheck}</EM>
             
             <DI>{"111 User Ln"}</DI> 
-            <I type="date" />
+            <I type="date" onChange={e => setDelivery(e.target.value)}/>
+            <EM>{deliveryCheck}</EM>
             <DI>Suggested Price: ${n}</DI> 
             <DI>Total Amount Due: ${total}</DI> 
 
@@ -123,7 +153,7 @@ const [buttonState, setButtonState] = useState(false)
         <SB type="button" onClick={() =>{
             calculateSug();
             calculateTotal();}}>Calculate Price</SB>
-        <SB onclass="form-field"  type="submit">Submit</SB>
+        <SB onclass="form-field" onClick={e => (gallonInputValidation(e), dateInputValidation(e))} type="submit">Submit</SB>
         <ML href="#">
             Past Orders <BL href="#" onClick={toSignin}>View Shipment History </BL>
         </ML>
