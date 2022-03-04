@@ -1,6 +1,7 @@
 import './App.css';
 import styled from "styled-components";
-import { AB } from './conponents/Login';
+import { ABPM } from './conponents/ProfileManager/indexPM';
+
 
 const AppContainer = styled.div`
 width: 100%;
@@ -14,7 +15,7 @@ background-color: #1F262A;
 
 function App() {
   return <AppContainer>
-    <AB />
+    <ABPM />
   </AppContainer>
 }
 
