@@ -5,6 +5,34 @@ import { motion } from "framer-motion";
 import { AccountContext } from "./accountContextH";
 import { Signup } from "./signupH";
 
+
+
+import { createGlobalStyle } from "styled-components";
+
+
+
+const GlobalStyle = createGlobalStyle`
+  table {
+  width: 100%;
+  border: 1px solid black;
+  border-collapse: collapse;
+  th,
+  td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th,
+  td,
+  tr {
+    padding: 5px;
+  }
+  th {
+    text-align: left;
+  }
+  }
+`;
+
+
 const BC = styled.div`
 width: 280px;
 min-height: 550px;
@@ -122,6 +150,57 @@ export function ABH(props) {
         }, 400);
     };
     
+    const StyledTable = styled.table`
+    caption-side: top;
+    border: none;
+    border-collapse: collapse;
+    /* border-collapse: separate; */
+    /* border-spacing: 5px 10px; */
+  
+    caption-side: bottom;
+    /* empty-cell: show | hide;  */
+    /* empty-cell is a property of table or the cells themselves */
+  
+    /* vertical-align: baseline | sub | super | text-top | 
+                  text-bottom | middle | top | bottom | 
+                  <percentage> | <length> */
+  
+    /* tbody {
+      vertical-align: top;
+    }              */
+    td,
+    th {
+      border: none;
+    }
+    /* td,
+    th {
+      border: 1px solid;
+    } */
+  
+    td {
+      padding: 5px 10px;
+    }
+  
+    tbody tr {
+      :nth-of-type(odd) {
+        background-color: #efefef;
+      }
+      :hover {
+        background-color: lightpink;
+      }
+    }
+    thead > tr {
+      background-color: #c2c2c2;
+    }
+    caption {
+      font-size: 0.9em;
+      padding: 5px;
+      font-weight: bold;
+    }
+  `;
+
+
+    
     const contextValue = {toSignup, toSignin};
 
     return (
@@ -133,14 +212,14 @@ export function ABH(props) {
                     variants={BDV}
                     transition = {ET} />
                     {active === "signin" && <HC>
-                        <HT>Welcome</HT>
-                        <HT>Back</HT>
-                        <ST>Please Signin To Continue</ST>
+                        <HT>Shipping</HT>
+                        <HT>History</HT>
+                        <ST>Records of your shipping history.</ST>
                     </HC>}
                     {active === "signup" && <HC>
-                        <HT>Create</HT>
-                        <HT>Account</HT>
-                        <ST>Please Signup To Continue</ST>
+                        <HT>Fuel</HT>
+                        <HT>Quote Form</HT>
+                        <ST>Please fill out form to continue</ST>
                     </HC>}
                 </TC>
                 <IC>
@@ -148,6 +227,8 @@ export function ABH(props) {
                     {active === "signup" && <Signup />}
                 </IC>
             </BC>
+
         </AccountContext.Provider>
+        
     )
 }
