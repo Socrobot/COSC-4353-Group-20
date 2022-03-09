@@ -72,3 +72,55 @@ background: linear-gradient(
     filter: brightness(1.03);
 }
 `;
+
+export const EM = styled.a`
+color: #ff0000;
+font-weight: 500;
+font-size: 8px;
+z-index: 10;
+margin: 0;
+`;
+
+export const J = styled.select`
+width: 100%;
+height: 42px;
+background: rgb(169,169,169);
+outline: none;
+border: 1px solid rgba(200, 200, 200, 0.3);
+padding: 0px 10px;
+border-bottom: 1.4px solid transparent;
+transition: all 200ms ease-in-out;
+font-size: 12px;
+&::placeholder {
+    color: rgba(255, 255, 255, 1);
+}
+&:not(:last-of-type) {
+    border-bottom: 1.5px solid rgba(200, 200, 200, 0.4);
+}
+&:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(9,255,0);
+}
+`;
+
+export const K = styled.option`
+width: 100%;
+height: 42px;
+background: rgb(169,169,169);
+outline: none;
+border: 1px solid rgba(200, 200, 200, 0.3);
+padding: 0px 10px;
+border-bottom: 1.4px solid transparent;
+transition: all 200ms ease-in-out;
+font-size: 12px;
+&::placeholder {
+    color: rgba(255, 255, 255, 1);
+}
+&:not(:last-of-type) {
+    border-bottom: 1.5px solid rgba(200, 200, 200, 0.4);
+}
+&:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(9,255,0);
+}
+`;
