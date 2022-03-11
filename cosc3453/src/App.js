@@ -1,6 +1,8 @@
 import './App.css';
 import styled from "styled-components";
-import { AB } from './conponents/Login';
+import { AB } from './conponents/Login/index';
+import { ABH } from './conponents/Home/indexH'
+import { ABPM } from './conponents/ProfileManager/indexPM';
 
 const AppContainer = styled.div`
 width: 100%;
