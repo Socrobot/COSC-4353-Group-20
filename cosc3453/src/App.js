@@ -1,5 +1,6 @@
 import './App.css';
 import styled from "styled-components";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AB } from './conponents/Login/index';
 import { ABH } from './conponents/Home/indexH'
 import { ABPM } from './conponents/ProfileManager/indexPM';
@@ -16,7 +17,13 @@ background-color: #1F262A;
 
 function App() {
   return <AppContainer>
-    <AB />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={ <AB /> } />
+          <Route path="Home" element={ <ABH />} />
+          <Route path="UserData" element={ <ABPM /> } />
+        </Routes>
+      </BrowserRouter>
   </AppContainer>
 }
 
