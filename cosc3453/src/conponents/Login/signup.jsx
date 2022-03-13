@@ -83,9 +83,9 @@ export function Signup(props) {
      // async function for datebase validation. 
     async function accountValidation() {
 
-        const post = { email_signup: email, password_signup: password }
-        const response = await axios.post("signup/", post);
-        const text = JSON.stringify(response);
+        const post = { username: email, password: password }
+        const response = await axios.post("api/login_signup/", post);
+        const text = JSON.stringify(response?.data);
 
         if (text.includes('Success')){
             alert("Accepted Info");
