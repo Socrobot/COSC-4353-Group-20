@@ -88,7 +88,7 @@ const MyTableCompoent = () => (
  order: '87574505851064',
  },
  ],
- []
+  []
 )
 
 
