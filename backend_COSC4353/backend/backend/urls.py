@@ -37,12 +37,11 @@ router.register(r'userdata', userdataviews.UserInfoView, 'userdata')
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-
+    path('admin/', admin.site.urls, name='admin'),
+    path('auth/', obtain_auth_token, name='auth'),
     # add another path to the url patterns
     # when you visit the localhost:8000/api
     # you should be routed to the django Rest framework
-    path('api/', include(router.urls)),
-    path('auth/', obtain_auth_token)
+    path('api/', include(router.urls), name='api'),
 
 ]

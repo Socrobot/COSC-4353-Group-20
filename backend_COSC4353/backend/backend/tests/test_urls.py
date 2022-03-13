@@ -1,10 +1,20 @@
-from signal import siginterrupt
-from django.test import SimpleTestCase
-from django.urls import reverse, resolve
-from login_signup.views import UserViewSet
+from urllib import response
+from django.test import TestCase
 
-class TestUrls(SimpleTestCase):
 
-    def test_api_login_signup_url_is_resolved(self):
-        url = reverse('login_signup')
-        print(resolve(url))
+class URLTesting(TestCase):
+    def test_apipage(self):
+        response = self.client.get('http://127.0.0.1:8000/api/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_adminpage(self):
+        response = self.client.get('http://127.0.0.1:8000/admin/')
+        self.assertEqual(response.status_code, 302)
+
+    def test_authpage(self):
+        response = self.client.get('http://127.0.0.1:8000/auth/')
+        self.assertEqual(response.status_code, 405)
+
+    def test_login_signuppage(self):
+        response = self.client.get('http://127.0.0.1:8000/api/login_signup/')
+        self.assertEqual(response.status_code, 200)
