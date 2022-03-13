@@ -8,4 +8,7 @@ class FuelData(models.Model):
     sugPrice = models.FloatField(max_length=10000)
     totalPrice = models.FloatField(max_length=10000)
 
+    def __unicode__(self):
+        return self.delivery
+
 
