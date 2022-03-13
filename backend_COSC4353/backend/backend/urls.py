@@ -14,34 +14,34 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-
 # add include to the path
 from django.urls import path, include
 
+from rest_framework.authtoken.views import obtain_auth_token
 # import views from apps
 from login_signup import views as loginviews
 from fueldata import views as fueldataviews
 from userdata import views as userdataviews
-
 # import routers from the REST framework
 # it is necessary for routing
 from rest_framework import routers
+
 
 # create a router object
 router = routers.DefaultRouter()
 
 # register the router
-router.register(r'login', loginviews.LoginView, 'login')
-router.register(r'signup', loginviews.SignupView, 'signup')
+
+router.register(r'login_signup', loginviews.UserViewSet, 'login_signup')
 router.register(r'userdata', userdataviews.UserInfoView, 'userdata')
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
 
+urlpatterns = [
+    path('admin/', admin.site.urls, name='admin'),
+    path('auth/', obtain_auth_token, name='auth'),
     # add another path to the url patterns
     # when you visit the localhost:8000/api
     # you should be routed to the django Rest framework
-    path('api/', include(router.urls)),
-
+    path('api/', include(router.urls), name='api'),
 
 ]

@@ -11,8 +11,6 @@ import AuthContext from "../../context/AuthProvider";
 // fucntion sent to index.jsx
 export function Login(props) {
 
-    const { setAuth } = useContext(AuthContext);
-
     // controls routing
     const navigate = useNavigate();
 
@@ -27,6 +25,8 @@ export function Login(props) {
     const [passwordCheck, setPasswordCheck] = useState("");
     const [passwordpf, setPasswordpf] = useState("");
     useDebounce(() => passwordInputValidation(), 1000, [password]);
+
+    const { setAuth } = useContext(AuthContext);
 
     // email validation (Will include database checks further down the road)
     const emailInputValidation = () => {
@@ -60,7 +60,6 @@ export function Login(props) {
     const mainInputValidation = (e) => {
         e.preventDefault();
         if (emailpf === "Pass" && passwordpf === "Pass"){
-            alert("Pass");
             accountValidation()
         }
         else {
@@ -72,19 +71,17 @@ export function Login(props) {
     // async function for datebase validation. 
     async function accountValidation() {
 
-        const post = { email_login: email, password_login: password }
-        const response = await axios.post("login/", post);
-        const text = JSON.stringify(response?.data);
-
-        if (text.includes('Success')){
+        const post = { username: email, password: password }
+        const response = await axios.post("auth/", post);
+        const text = JSON.stringify(response?.data.token);
+        console.log(text);
+        if (text.length !== 0){
             alert("Accepted Info");
+            setAuth({email, password, text});
             navigate("/Home");
         }
-        else if (text.includes('Fail')){
-            alert("Unaccepted Info")
-        }
         else {
-            alert("Error During Proccessing")
+            alert("Unaccepted Info")
         }
     };
 
