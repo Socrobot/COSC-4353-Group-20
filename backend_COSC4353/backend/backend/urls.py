@@ -33,6 +33,7 @@ router = routers.DefaultRouter()
 # register the router
 router.register(r'login', loginviews.LoginView, 'login')
 router.register(r'signup', loginviews.SignupView, 'signup')
+router.register(r'userdata', userdataviews.UserInfoView, 'userdata')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,7 +41,7 @@ urlpatterns = [
     # add another path to the url patterns
     # when you visit the localhost:8000/api
     # you should be routed to the django Rest framework
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
 
 
 ]
