@@ -31,7 +31,10 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 
 # register the router
+
 router.register(r'login_signup', loginviews.UserViewSet, 'login_signup')
+router.register(r'userdata', userdataviews.UserInfoView, 'userdata')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
