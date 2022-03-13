@@ -2,12 +2,17 @@ import React, { useContext, useState } from "react";
 import { BC, FC, I, ML, SB, BL, EM } from "./common";
 import { Marginer } from "../marginerTool";
 import { AccountContext } from "./accountContext";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import axios from '../../api/axios';
 import useDebounce from "../Hooks/useDebounce";
+import AuthContext from "../../context/AuthProvider";
 
 
 // fucntion sent to index.jsx
 export function Login(props) {
+
+    // controls routing
+    const navigate = useNavigate();
 
     // useStates for password and email checks 
     const { toSignup } = useContext(AccountContext)
@@ -21,9 +26,7 @@ export function Login(props) {
     const [passwordpf, setPasswordpf] = useState("");
     useDebounce(() => passwordInputValidation(), 1000, [password]);
 
-    const client = axios.create({
-        baseURL: "http://127.0.0.1:8000/api/"
-    });
+    const { setAuth } = useContext(AuthContext);
 
     // email validation (Will include database checks further down the road)
     const emailInputValidation = () => {
@@ -41,7 +44,7 @@ export function Login(props) {
 
     // password validation (Will include database checks further down the road)
     const passwordInputValidation = () => {
-        if (password.length < 100 && password.length > 8){
+        if (password.length <= 100 && password.length >= 8){
             setPasswordCheck("");
             setPasswordpf("Pass");
         }
@@ -57,11 +60,10 @@ export function Login(props) {
     const mainInputValidation = (e) => {
         e.preventDefault();
         if (emailpf === "Pass" && passwordpf === "Pass"){
-            alert("Pass");
             accountValidation()
         }
         else {
-            alert("Fail");
+            alert("Please Check your email and password...");
         }
 
     };
@@ -69,31 +71,29 @@ export function Login(props) {
     // async function for datebase validation. 
     async function accountValidation() {
 
-        const post = { email_login: email, password_login: password }
-        const response = await client.post("login/", post);
-        const text = JSON.stringify(response);
-
-        if (text.includes('Success')){
+        const post = { username: email, password: password }
+        const response = await axios.post("auth/", post);
+        const text = JSON.stringify(response?.data.token);
+        console.log(text);
+        if (text.length !== 0){
             alert("Accepted Info");
-        }
-        else if (text.includes('Fail')){
-            alert("Unaccepted Info")
+            setAuth({email, password, text});
+            navigate("/Home");
         }
         else {
-            alert("Error During Proccessing")
+            alert("Unaccepted Info")
         }
     };
 
     // html for signin page
     return <BC>
         <FC>
-            <I type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+            <I type="email" placeholder="Email" autoComplete="off" value={email} onChange={e => setEmail(e.target.value)} required/>
             <EM>{emailCheck}</EM>
-            <I type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+            <I type="password" placeholder="Password" autoComplete="off" value={password} onChange={e => setPassword(e.target.value)} required/>
             <EM>{passwordCheck}</EM>
         </FC>
         <Marginer direction="vertical" margin={10} />
-        <ML href="#">Forget your password?</ML>
         <Marginer direction="vertical" margin="1.6em" />
         <SB type="submit" onClick={e => mainInputValidation(e)}>Signin</SB>
         <ML href="#">

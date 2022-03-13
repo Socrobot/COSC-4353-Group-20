@@ -3,11 +3,15 @@ import useDebounce from "../Hooks/useDebounce";
 import { BC, FC, I, ML, SB, BL, EM } from "./common";
 import { Marginer } from "../marginerTool";
 import { AccountContext } from "./accountContext";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import axios from '../../api/axios';
 
 
 // fucntion sent to index.jsx
 export function Signup(props) {
+
+    // controls routing
+    const navigate = useNavigate();
 
     // useStates for password and email checks
     const { toSignin } = useContext(AccountContext);
@@ -27,10 +31,6 @@ export function Signup(props) {
     const [passwordpf2, setPasswordpf2] = useState("");
     useDebounce(() => passwordMatchingInputValidation(), 1000, [passwordValidation]);
 
-    const client = axios.create({
-        baseURL: "http://127.0.0.1:8000/api/"
-    });
-
     // email validation
     const emailInputValidation = () => {
         if (email.includes("@", 1) && email.includes(".", 1)) {
@@ -45,7 +45,7 @@ export function Signup(props) {
 
     // password validation
     const passwordInputValidation = () => {
-        if (password.length < 100 && password.length > 8){
+        if (password.length <= 100 && password.length >= 8){
             setPasswordCheck("");
             setPasswordpf("Pass");
         }
@@ -83,12 +83,13 @@ export function Signup(props) {
      // async function for datebase validation. 
     async function accountValidation() {
 
-        const post = { email_signup: email, password_signup: password }
-        const response = await client.post("signup/", post);
-        const text = JSON.stringify(response);
+        const post = { username: email, password: password }
+        const response = await axios.post("api/login_signup/", post);
+        const text = JSON.stringify(response?.data);
 
         if (text.includes('Success')){
             alert("Accepted Info");
+            navigate("UserData");
         }
         else if (text.includes('Fail')){
             alert("Unaccepted Info")
@@ -101,11 +102,11 @@ export function Signup(props) {
     // html for signup page
     return <BC>
         <FC>
-            <I type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+            <I type="email" placeholder="Email" autoComplete="off" value={email} onChange={e => setEmail(e.target.value)} required />
             <EM>{emailCheck}</EM>
-            <I type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+            <I type="password" placeholder="Password" autoComplete="off" value={password} onChange={e => setPassword(e.target.value)} required/>
             <EM>{passwordCheck}</EM>
-            <I type="password" name="passwordValidation" placeholder="Confirm Password" value={passwordValidation} onChange={e => setPasswordValidation(e.target.value)} />
+            <I type="password" name="passwordValidation" autoComplete="off" placeholder="Confirm Password" value={passwordValidation} onChange={e => setPasswordValidation(e.target.value)} required/>
             <EM>{passwordValidationCheck}</EM>
         </FC>
         <Marginer direction="vertical" margin="1.6em" />

@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'fueldata',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
+    'userdata',
 ]
 
 MIDDLEWARE = [
