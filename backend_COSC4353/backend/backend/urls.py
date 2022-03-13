@@ -33,7 +33,7 @@ router = routers.DefaultRouter()
 # register the router
 router.register(r'login', loginviews.LoginView, 'login')
 router.register(r'signup', loginviews.SignupView, 'signup')
-
+router.register(r'fueldata', fueldataviews.FuelDataView, 'fueldata')
 urlpatterns = [
     path('admin/', admin.site.urls),
 
