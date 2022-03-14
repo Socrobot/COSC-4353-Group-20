@@ -68,22 +68,26 @@ export function Login(props) {
 
     };
 
-    // async function for datebase validation. 
-    async function accountValidation() {
+    const accountValidation = async() => {
+        try {
+            const post = { username: email, password: password }
+            const response = await axios.post("auth/", post);
+            const text = JSON.stringify(response?.status);
 
-        const post = { username: email, password: password }
-        const response = await axios.post("auth/", post);
-        const text = JSON.stringify(response?.data.token);
-        console.log(text);
-        if (text.length !== 0){
-            alert("Accepted Info");
-            setAuth({email, password, text});
-            navigate("/Home");
+            if (text.includes('200')){
+                alert("Accepted Info");
+                navigate("/Home");
+            }
+
+        } catch (error) {
+            if (error.response.status === 400) {
+                alert("email or password incorrect...")
+            }
+            else {
+                alert("Error During Proccessing")
+            }
         }
-        else {
-            alert("Unaccepted Info")
-        }
-    };
+    }
 
     // html for signin page
     return <BC>

@@ -33,7 +33,7 @@ class SerializerTest2(TestCase):
         }
 
         self.serializer_data = {
-             'gallons': 98,
+            'gallons': 98,
             'delivery': "2022-12-11",
             'sugPrice': 35.60,
             'totalPrice': 8529.78
