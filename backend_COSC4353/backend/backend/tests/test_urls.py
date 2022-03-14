@@ -18,3 +18,11 @@ class URLTesting(TestCase):
     def test_login_signuppage(self):
         response = self.client.get('http://127.0.0.1:8000/api/login_signup/')
         self.assertEqual(response.status_code, 200)
+
+    def test_userdatapage(self):
+        response = self.client.get('http://127.0.0.1:8000/api/userdata/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_fueldata(self):
+        response = self.client.get('http://127.0.0.1:8000/api/fueldata/')
+        self.assertEqual(response.status_code, 200)

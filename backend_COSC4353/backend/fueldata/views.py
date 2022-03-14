@@ -10,12 +10,11 @@ from urllib import response
 from django.shortcuts import render
 
 
-
 # import api view from rest framework
 from rest_framework.views import APIView
 # Create your views here.
 
+
 class FuelDataView(viewsets.ModelViewSet):
     serializer_class = FuelDataSerializer
     queryset = FuelData.objects.all()
-
