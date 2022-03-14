@@ -10,3 +10,6 @@ class UserInfo(models.Model):
     Cityfield = models.CharField(max_length=100)
     Statefield = models.CharField(max_length=2)
     ZipCodefield = models.CharField(max_length=9) 
+
+    def __unicode__(self):
+        return self.Namefield
