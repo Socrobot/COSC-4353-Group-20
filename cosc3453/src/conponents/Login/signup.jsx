@@ -80,24 +80,26 @@ export function Signup(props) {
             }
         };
 
-     // async function for datebase validation. 
-    async function accountValidation() {
+    const accountValidation = async() => {
+        try {
+            const post = { username: email, password: password }
+            const response = await axios.post("api/login_signup/", post);
+            const text = JSON.stringify(response?.status);
 
-        const post = { username: email, password: password }
-        const response = await axios.post("api/login_signup/", post);
-        const text = JSON.stringify(response?.data);
+            if (text.includes('201')){
+                alert("Accepted Info");
+                navigate("/UserData");
+            }
 
-        if (text.includes('Success')){
-            alert("Accepted Info");
-            navigate("UserData");
+        } catch (error) {
+            if (error.response.status === 400) {
+                alert("Email is already used... Please try a diffrent email")
+            }
+            else {
+                alert("Error During Proccessing")
+            }
         }
-        else if (text.includes('Fail')){
-            alert("Unaccepted Info")
-        }
-        else {
-            alert("Error During Proccessing")
-        }
-    };
+    }
 
     // html for signup page
     return <BC>
