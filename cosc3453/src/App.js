@@ -5,6 +5,7 @@ import { AB } from './conponents/Login/index';
 import { ABH } from './conponents/Home/indexH'
 import { ABPM } from './conponents/ProfileManager/indexPM';
 import { useEffect, useState } from 'react';
+import { authToken } from './context/AuthProvider';
 
 const AppContainer = styled.div`
 width: 100%;
@@ -17,6 +18,7 @@ background-color: #1F262A;
 `;
 
 function App() {
+  // var token = sessionStorage.getItem("token");
 
   return <AppContainer>
       <BrowserRouter>

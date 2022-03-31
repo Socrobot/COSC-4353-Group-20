@@ -207,7 +207,7 @@ const client = axios.create({
   baseURL: "http://127.0.0.1:8000/api/"
 });
      // async function for datebase validation. 
-     async function accountValidation2() {
+      async function accountValidation2() {
 
       const post = { gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
       const response = await client.post("fueldata/", post);
@@ -234,7 +234,7 @@ const client = axios.create({
             min="1"
             max="100,000"
             values ={values.gallons}
-           
+          
             onChange={e => {
             //setN(25);
            // setTotal(120);  
@@ -255,11 +255,11 @@ const client = axios.create({
             </DI> 
             <DI>Total Amount Due: ${total}</DI> 
 
-           
+          
         </FC>
         <Marginer direction="vertical" margin="1.6em" />
         <SB type="button" 
-       onChange={e => setButtonCheck(e.target.value)}
+        onChange={e => setButtonCheck(e.target.value)}
         
         onClick={() =>{
             
