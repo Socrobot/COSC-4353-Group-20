@@ -124,7 +124,7 @@ export function AB(props) {
             setActive('signin');
         }, 400);
     };
-    
+
     const contextValue = {toSignup, toSignin};
 
     //html with custom styled containers
@@ -155,3 +155,5 @@ export function AB(props) {
         </AccountContext.Provider>
     )
 }
+
+export default AB

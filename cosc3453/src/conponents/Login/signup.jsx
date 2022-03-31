@@ -80,14 +80,38 @@ export function Signup(props) {
             }
         };
 
+    const signinValidation = async() => {
+        try {
+            const post = { username: email, password: password }
+            const response = await axios.post("auth/", post);
+            const text = JSON.stringify(response?.status);
+            const token = JSON.stringify(response?.data.token);
+
+            if (text.includes('200')){
+                sessionStorage.setItem("token", token);
+            }
+
+        } catch (error) {
+            if (error.response.status === 400) {
+                alert("email or password incorrect...")
+            }
+            else {
+                alert("Error During Proccessing")
+            }
+        }
+    }
+
     const accountValidation = async() => {
         try {
             const post = { username: email, password: password }
             const response = await axios.post("api/login_signup/", post);
             const text = JSON.stringify(response?.status);
+            const token = JSON.stringify(response?.data.token);
 
             if (text.includes('201')){
                 alert("Accepted Info");
+                sessionStorage.setItem("username", email);
+                await signinValidation();
                 navigate("/UserData");
             }
 
