@@ -5,7 +5,7 @@ import { AccountContext } from "./accountContext";
 import { useNavigate } from "react-router-dom";
 import axios from '../../api/axios';
 import useDebounce from "../Hooks/useDebounce";
-import AuthContext from "../../context/AuthProvider";
+import { AuthContext } from "../../context/AuthProvider";
 
 
 // fucntion sent to index.jsx
@@ -25,8 +25,6 @@ export function Login(props) {
     const [passwordCheck, setPasswordCheck] = useState("");
     const [passwordpf, setPasswordpf] = useState("");
     useDebounce(() => passwordInputValidation(), 1000, [password]);
-
-    const { setAuth } = useContext(AuthContext);
 
     // email validation (Will include database checks further down the road)
     const emailInputValidation = () => {
@@ -73,9 +71,12 @@ export function Login(props) {
             const post = { username: email, password: password }
             const response = await axios.post("auth/", post);
             const text = JSON.stringify(response?.status);
+            const token = JSON.stringify(response?.data.token);
 
             if (text.includes('200')){
                 alert("Accepted Info");
+                sessionStorage.setItem("username", email);
+                sessionStorage.setItem("token", token);
                 navigate("/Home");
             }
 
@@ -101,7 +102,7 @@ export function Login(props) {
         <Marginer direction="vertical" margin="1.6em" />
         <SB type="submit" onClick={e => mainInputValidation(e)}>Signin</SB>
         <ML href="#">
-            Don't have an accoun?{" "} <BL href="#" onClick={toSignup}>Signup</BL>
+            Don't have an account?{" "} <BL href="#" onClick={toSignup}>Signup</BL>
         </ML>
     </BC>
 }

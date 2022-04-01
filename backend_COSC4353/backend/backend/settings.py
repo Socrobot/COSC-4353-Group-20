@@ -82,12 +82,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'euvevelx',
-        'USER' : 'euvevelx',
-        'PASSWORD' : 'fF7Jzr40QUpvygi7RP2MtBYeG3zNifoj',
-        'HOST' : 'raja.db.elephantsql.com',
-        'POST' : '5432',
+        'USER': 'euvevelx',
+        'PASSWORD': 'fF7Jzr40QUpvygi7RP2MtBYeG3zNifoj',
+        'HOST': 'raja.db.elephantsql.com',
+        'PORT': '5432',
+
     }
 }
 
