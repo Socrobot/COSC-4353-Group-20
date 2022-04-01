@@ -88,6 +88,7 @@ DATABASES = {
         'PASSWORD': 'fF7Jzr40QUpvygi7RP2MtBYeG3zNifoj',
         'HOST': 'raja.db.elephantsql.com',
         'PORT': '5432',
+
     }
 }
 

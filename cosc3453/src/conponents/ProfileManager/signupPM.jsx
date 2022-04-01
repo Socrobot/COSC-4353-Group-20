@@ -1,39 +1,52 @@
 import React, { useContext, useState } from "react";
+import useDebounce from "../Hooks/useDebounce";
 import { BC, FC, I, ML, SB, BL,EM,J,K } from "./commonPM";
 import { Marginer } from "../marginerTool";
 import { AccountContext } from "./accountContextPM";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export function Signup(props) {
 
+    const navigate = useNavigate();
+
     const { toSignin } = useContext(AccountContext)
     const [Name, setName] = useState("");
     const [NameCheck, setNameCheck] = useState("");
+    const [namepf, setNamepf] = useState("");
+    useDebounce(()=>NameInputValidation(),1000,[Name])
+
     const [Address, setAddress] = useState("");
     const [AddressCheck, setAddressCheck] = useState("");
+    const [addresspf, setAddresspf] = useState("");
+    useDebounce(()=>AddressInputValidation(),1000,[Address])
+
     const [Address2, setAddress2] = useState("");
     const [AddressCheck2, setAddress2Check] = useState("");
+    const [address2pf, setAddress2pf] = useState("True");
+    useDebounce(()=>Address2InputValidation(),1000,[Address2])
+
     const [City, setCity] = useState("");
     const [CityCheck, setCityCheck] = useState("");
+    const [citypf, setCitypf] = useState("");
+    useDebounce(()=>CityInputValidation(),1000,[City])
+
     const [State, setS] = useState("");
     const [StateCheck, setStateCheck] = useState("");
+    const [statepf, setStatepf] = useState("");
+    useDebounce(()=>StateInputValidation(),1000,[State])
+
     const [ZipCode, setZipCode] = useState("");
     const [ZipCheck, setZipCheck] = useState("");
-    const [namepf, setNamepf] = useState("");
-    const [addresspf, setAddresspf] = useState("");
-    const [address2pf, setAddress2pf] = useState("");
-    const [citypf, setCitypf] = useState("");
-    const [statepf, setStatepf] = useState("");
     const [zipcodepf, setZipCodepf] = useState("");
+    useDebounce(()=>zipInputValidation(),1000,[ZipCode])
 
 
     const client = axios.create({
         baseURL: "http://127.0.0.1:8000/api/"
     });
 
-    const NameInputValidation = (e) => {
-        e.preventDefault();
-        setName(e.target.value)
+    const NameInputValidation = () => {
         if (Name.length === 0){
             setNameCheck("You can not leave this blank")
             setNamepf("Fail")
@@ -48,9 +61,7 @@ export function Signup(props) {
         }
     };
 
-    const AddressInputValidation = (e) => {
-        e.preventDefault();
-        setAddress(e.target.value)
+    const AddressInputValidation = () => {
         if (Address.length === 0){
             setAddressCheck("You can not leave this blank")
             setAddresspf("Fail")
@@ -65,8 +76,7 @@ export function Signup(props) {
         }
     };
 
-    const Address2InputValidation = (e) => {
-        setAddress2(e.target.value)
+    const Address2InputValidation = () => {
         if (Address2.length < 100){
             setAddress2Check("");
             setAddress2pf("True")
@@ -77,9 +87,7 @@ export function Signup(props) {
         }
     };
 
-    const CityInputValidation = (e) => {
-        e.preventDefault();
-        setCity(e.target.value)
+    const CityInputValidation = () => {
         if (City.length === 0){
             setCityCheck("You can not leave this blank")
             setCitypf("Fail")
@@ -94,9 +102,7 @@ export function Signup(props) {
         }
     };
 
-    const StateInputValidation = (e) => {
-        e.preventDefault();
-        setS(e.target.value)
+    const StateInputValidation = () => {
         if (State.length === 2){
             setStateCheck("");
             setStatepf("True")
@@ -107,9 +113,7 @@ export function Signup(props) {
         }
     };
 
-    const zipInputValidation = (e) => {
-        e.preventDefault();
-        setZipCode(e.target.value)
+    const zipInputValidation = () => {
         if (ZipCode.length === 0){
             setZipCheck("You can not leave this blank")
             setZipCodepf("Fail")
@@ -126,6 +130,7 @@ export function Signup(props) {
 
     const mainInputValidation = (e) => {
         e.preventDefault();
+        console.log(namepf,addresspf,address2pf,citypf,statepf,zipcodepf);
         if (namepf === "True" && addresspf === "True" && address2pf === "True" && citypf === "True" && statepf === "True" && zipcodepf === "True" ){
             alert("Pass");
             accountValidation()
@@ -136,24 +141,38 @@ export function Signup(props) {
     };
 
     async function accountValidation() {
+        try{
+            //var username = sessionStorage.getItem("username")
+            const post = { Namefield : Name, Addressfield: Address, Address2field: Address2, Cityfield: City, Statefield: State, ZipCodefield: ZipCode}
+            const response = await client.post("userdata/", post);
+            const text = JSON.stringify(response?.status);
 
-        const post = { Namefield : Name, Addressfield: Address, Address2field: Address2, Cityfield: City, Statefield: State, ZipCodefield: ZipCode}
-        const response = await client.post("userdata/", post);
-        const text = JSON.stringify(response);
-        
+            if (text.includes('201')){
+                alert("Accepted Info");
+                navigate("/Home");
+            }
+        }
+        catch(error) {
+            if (error.response.status === 400) {
+                alert("Info is incorect")
+            }
+            else {
+                alert("Error During Proccessing")
+            }
+        }
     };
 
     return <BC>
         <FC>
-            <I type="Name" placeholder="Full Name" value={Name} onChange={e => (NameInputValidation(e), setName(e.target.value))}/>
+            <I type="Name" placeholder="Full Name" value={Name} onChange={e => setName(e.target.value)}/>
             <EM>{NameCheck}</EM>
-            <I type="Address" placeholder="Address 1" value={Address} onChange={e => (AddressInputValidation(e),setAddress(e.target.value))} />
+            <I type="Address" placeholder="Address 1" value={Address} onChange={e => setAddress(e.target.value)} />
             <EM>{AddressCheck}</EM>
-            <I type="Address2" placeholder="Address 2" value={Address2} onChange={e => (Address2InputValidation(e),setAddress2(e.target.value))} />
+            <I type="Address2" placeholder="Address 2" value={Address2} onChange={e => setAddress2(e.target.value)} />
             <EM>{AddressCheck2}</EM>
-            <I type="City" placeholder="City" value={City} onChange={e => (CityInputValidation(e),setCity(e.target.value))} />
+            <I type="City" placeholder="City" value={City} onChange={e => setCity(e.target.value)} />
             <EM>{CityCheck}</EM>
-            <J name="state" onChange={e => (StateInputValidation(e),setS(e.target.value))}>
+            <J name="state" onChange={e => setS(e.target.value)}>
                 <K value="State">Select State</K>
                 <K value="AL">AL</K>
                 <K value="AK">AK</K>
@@ -208,7 +227,7 @@ export function Signup(props) {
                 <K value="WY">WY</K>
             </J>
             <EM>{StateCheck}</EM>
-            <I type="ZipCode" placeholder="ZipCode" value={ZipCode} onChange={e => (zipInputValidation(e),setZipCode(e.target.value))}/>
+            <I type="ZipCode" placeholder="ZipCode" value={ZipCode} onChange={e => setZipCode(e.target.value)}/>
             <EM>{ZipCheck}</EM>
         </FC>
         <Marginer direction="vertical" margin="1.6em" />
