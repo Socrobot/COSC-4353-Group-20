@@ -7,6 +7,7 @@ import random
 
 
 class UserInfo(models.Model):
+
     username = models.CharField(max_length=100, default='invaliddata')
     Namefield = models.CharField(max_length=50, unique=True)
     Addressfield = models.CharField(max_length=100, unique=True)
