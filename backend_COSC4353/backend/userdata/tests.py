@@ -85,3 +85,8 @@ class SerializerTest2(TestCase):
         data = self.serializer.data
 
         self.assertEqual(data['ZipCodefield'], self.user_attributes['ZipCodefield'])    
+
+    def test_username_field_content(self):
+        data = self.serializer.data
+
+        self.assertEqual(data['username'], self.user_attributes['username']) 
