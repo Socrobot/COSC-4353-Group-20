@@ -209,23 +209,30 @@ const client = axios.create({
      // async function for datebase validation. 
      async function accountValidation2() {
 
-      const post = { gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
+      try{
+      //sessionStorage.setItem('username', 'testing@gmail.com')
+      var username = sessionStorage.getItem('username')
+      const post = { username: username, gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
       const response = await client.post("fueldata/", post);
     
       const text = JSON.stringify(response);
 
-      if (text.includes('Success')){
+      if (text.includes('201')){
           alert("Accepted Info");
+          
       }
-      else if (text.includes('Fail')){
+    }
+      catch(error){
+        if(error.response.status == 400){
           alert("Unaccepted Info")
       }
       else {
           alert("Error During Proccessing")
+          alert((error.response.status))
       }
   };
 
-
+     }
 
     return <BC>
         <FC>
@@ -238,6 +245,7 @@ const client = axios.create({
             onChange={e => {
             //setN(25);
            // setTotal(120);  
+           
             setGallon(e.target.value)}}
             
 
@@ -273,7 +281,7 @@ const client = axios.create({
           dateInputValidation(e);
           ButtonValidation(e);
           mainInputValidation(e)}}
-          onSubmit={props.handleSignup}
+
           type="submit">Submit</SB>
         <ML href="#">
             Past Orders <BL href="#" onClick={toSignin}>View Shipment History </BL>
