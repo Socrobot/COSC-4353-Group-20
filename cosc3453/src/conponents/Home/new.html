@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        th,td{
+        border: 1px black solid;
+        }
+    </style>
+</head>
+<body>
+ <h1>Student Page</h1>
+{% if stu %}
+ <h1>Show Data</h1>
+ <h3>{{stu}}</h3>
+ <table>
+     <tr>
+         <th>ID</th>
+         <th>Gallons</th>
+         <th>delivery</th>
+         <th>Suggested Price</th>
+         <th>totalPrice</th>
+     </tr>
+ <tr>
+     <td>{{stu.id}}</td>
+     <td>{{stu.gallons}}</td>
+     <td>{{stu.delivery}}</td>
+     <td>{{stu.sugPrice}}</td>
+     <td>{{stu.totalPrice}}</td>
+ </tr>
+</table>
+{% else %}
+ <h1>No Data</h1>
+{% endif %}
+</body>
+</html>
