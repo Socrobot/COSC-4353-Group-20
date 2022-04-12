@@ -7,27 +7,44 @@ import useDebounce from "../Hooks/useDebounce";
 import {useState} from "react";
 import axios from "axios";
 
+import querystring from "querystring";
 
 
 export function Signup(props) {
+
+
 
   const { toSignin } = useContext(AccountContext)
   const navigate = useNavigate();
 
   const [values, setValues] = useState({
    // gallons: "",
-    shipAddress: "111 address",
+    //shipAddress: "",
     //deliveryDate:"",
     sugPrice: "",
     totAmount: "",
   });
 
   const [gallons, setGallon] = useState("");
+  const [shipAddress, setAdd] = useState('');
+  const [city, setCity] = useState("");
+  const [repeat, setRepeat] = useState("");
 
   const [deliveryDate, setDelivery] = useState("");
   const [gallonCheck, setGalCheck] = useState("");
   const [deliveryCheck, setDateCheck] = useState("");
   const [buttonCheck, setButtonCheck]= useState("");
+
+
+  const [num1, setNum1]= useState("");
+  const [num2, setNum2]= useState("");
+  const [num3, setNum3]= useState("");
+  const [num4, setNum4]= useState("");
+
+
+
+
+
 
 
   const [galval, setGalval] = useState("");
@@ -36,7 +53,64 @@ export function Signup(props) {
   useDebounce(() => gallonInputValidation(), 1000, [gallons]);
   useDebounce(() => dateInputValidation(), 1000, [deliveryDate]);
   //useDebounce(() => ButtonValidation(), 1000, [n]);
+  async function componentMount() 
+{
 
+  
+
+
+
+  sessionStorage.setItem('Namefield', 'Apples Test')
+  var Namefield = sessionStorage.getItem('Namefield')
+  let query = querystring.stringify({ Namefield: Namefield });
+  //const get = { gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
+  const response = await client.get("userdata/?" + query );
+
+  const text = JSON.stringify(response?.data);
+  const myArr = JSON.parse(text);
+
+ // const len = myArr.length to get the amount of entries
+  console.log(myArr[0].Statefield);
+  setCity(myArr[0].Statefield)
+  if(city == 'TX')
+  {
+    setNum1(0.02);
+  }
+  else if (city != 'TX' )
+  {
+    setNum1(0.04);
+  }
+  setAdd(myArr[0].Addressfield)
+
+
+
+  sessionStorage.setItem('username', 'masen')
+  var username = sessionStorage.getItem('username')
+  let query2= querystring.stringify({ username: username });
+  //const get = { gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
+  const response2 = await client.get("fueldata/?" + query2 );
+
+  const text2 = JSON.stringify(response2?.data);
+  const myArr2 = JSON.parse(text2);
+
+ // const len = myArr.length to get the amount of entries
+  console.log(myArr[0].Statefield);
+  console.log(myArr2.length)
+  setRepeat(myArr2.length)
+  if(repeat == 0)
+  {
+    setNum3(0)
+  }
+  else if(repeat != null)
+  {
+    setNum3(0.01)
+  }
+  
+  
+  
+  
+
+}
 
   const [submitted, setSubmitted] = useState(false)
 
@@ -60,34 +134,37 @@ export function Signup(props) {
   const [total, setTotal] = useState(null);
 
   function calculateTotal() {
-    if (gallons <= 5) {
-      //setN(1);
-      setTotal(gallons * 1);
-    } else if (gallons <= 15) {
-      //setN(2);
-      setTotal(gallons * 2);
-    } else if (gallons > 20) {
-      //setN(3);
-      setTotal((gallons) * 3);
-    }
-    return calculateTotal;
+  
+      setTotal(gallons * n);
+
   }
 
   function calculateSug()
   {
-    if(gallons == null || gallons == 0)
+
+    if(gallons > 1000)
     {
-      setN(gallons)
+      setNum2(0.02);
     }
-    else if( values.gallons == 20)
+    else if( gallons <= 1000)
     {
-      setN(12)
+      setNum2(0.03);
     }
-    else{
-      setN(35)
-    }
+
+
+      setN(((num1 - num3 + num2 + .1) * 1.50)+1.50);
+
+
+   // setTotal(gallons * n);
+
     
-    return calculateSug;
+  }
+
+  function calc()
+  {
+  
+    calculateSug();
+    calculateTotal();
   }
 
 const [buttonState, setButtonState] = useState(false)
@@ -232,6 +309,10 @@ const client = axios.create({
       }
   };
 
+
+
+
+
      }
 
     return <BC>
@@ -241,11 +322,14 @@ const client = axios.create({
             min="1"
             max="100,000"
             values ={values.gallons}
-          
+            onChange={() =>{
+              //componentMount();
+        
+                  }}
             onChange={e => {
             //setN(25);
            // setTotal(120);  
-           
+            
             setGallon(e.target.value)}}
             
 
@@ -255,7 +339,7 @@ const client = axios.create({
             placeholder="Enter number of gallons" />
             <EM>{gallonCheck}</EM>
             
-            <DI>{"111 User Ln"}</DI> 
+            <DI>{shipAddress}</DI> 
             <I type="date" onChange={e => setDelivery(e.target.value)}/>
             <EM>{deliveryCheck}</EM>
             <DI>Suggested Price: ${n}
@@ -270,9 +354,11 @@ const client = axios.create({
         onChange={e => setButtonCheck(e.target.value)}
         
         onClick={() =>{
+          componentMount();
             
-            calculateSug();
-            calculateTotal();}}>Calculate Price</SB>
+            calc();
+            //calculateTotal();
+            }}>Get Quote</SB>
             <EM>{buttonCheck}</EM>
     <BC></BC>
       

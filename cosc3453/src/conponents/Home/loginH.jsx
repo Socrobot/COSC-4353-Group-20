@@ -33,7 +33,7 @@ export function Login(props) {
 
 
 
-      //sessionStorage.setItem('username', 'testing@gmail.com')
+      //sessionStorage.setItem('username', 'masen2')
       var username = sessionStorage.getItem('username')
       let query = querystring.stringify({ username: username });
       //const get = { gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
