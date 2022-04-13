@@ -143,7 +143,7 @@ export function Signup(props) {
     async function accountValidation() {
         try{
             var username = sessionStorage.getItem("username")
-            const post = { username:username, Namefield : Name, Addressfield: Address, Address2field: Address2, Cityfield: City, Statefield: State, ZipCodefield: ZipCode}
+            const post = { username: username, Namefield : Name, Addressfield: Address, Address2field: Address2, Cityfield: City, Statefield: State, ZipCodefield: ZipCode}
             const response = await client.post("userdata/", post);
             const text = JSON.stringify(response?.status);
 

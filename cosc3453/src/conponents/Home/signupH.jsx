@@ -4,7 +4,7 @@ import { Marginer } from "../marginerTool";
 import { useNavigate } from 'react-router-dom';
 import { AccountContext } from "./accountContextH";
 import useDebounce from "../Hooks/useDebounce";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import axios from "axios";
 
 import querystring from "querystring";
@@ -12,6 +12,8 @@ import querystring from "querystring";
 
 export function Signup(props) {
 
+
+ 
 
 
   const { toSignin } = useContext(AccountContext)
@@ -27,6 +29,7 @@ export function Signup(props) {
 
   const [gallons, setGallon] = useState("");
   const [shipAddress, setAdd] = useState('');
+  const [data, setAdd2] = useState('');
   const [city, setCity] = useState("");
   const [repeat, setRepeat] = useState("");
 
@@ -52,17 +55,27 @@ export function Signup(props) {
   const [buttonval, setButtonval] = useState("");
   useDebounce(() => gallonInputValidation(), 1000, [gallons]);
   useDebounce(() => dateInputValidation(), 1000, [deliveryDate]);
-  //useDebounce(() => ButtonValidation(), 1000, [n]);
-  async function componentMount() 
-{
+  useDebounce(() => ButtonValidation(), 1000, []);
+  //useDebounce(() => calculateSug(), 1000, [n]);
+  //useDebounce(() => calculateTotal(), 1000, [total]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+       const data = await citycomp();
+       componentMount();
+       setAdd2(data);
+    }
   
+    fetchData();
+  }, []);
 
 
+  //useDebounce(() => ButtonValidation(), 1000, [n]);
 
-  sessionStorage.setItem('Namefield', 'Apples Test')
-  var Namefield = sessionStorage.getItem('Namefield')
-  let query = querystring.stringify({ Namefield: Namefield });
+  async function citycomp()
+  {
+    var username = sessionStorage.getItem('username')
+  let query = querystring.stringify({ username:  username });
   //const get = { gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
   const response = await client.get("userdata/?" + query );
 
@@ -70,21 +83,57 @@ export function Signup(props) {
   const myArr = JSON.parse(text);
 
  // const len = myArr.length to get the amount of entries
-  console.log(myArr[0].Statefield);
+  console.log(myArr[0].Addressfield);
+ //setCity(myArr[0].Statefield)
+
+  return ((myArr[0].Addressfield))
+
+  }
+
+  async function statecomp()
+  {
+    var username = sessionStorage.getItem('username')
+  let query = querystring.stringify({ username:  username });
+  //const get = { gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
+  const response = await client.get("userdata/?" + query );
+
+  const text = JSON.stringify(response?.data);
+  const myArr = JSON.parse(text);
+
+ // const len = myArr.length to get the amount of entries
+  console.log(myArr[0].Addressfield);
+ //setCity(myArr[0].Statefield)
+
+  return ((myArr[0].Addressfield))
+
+  }
+
+
+  async function componentMount() 
+{
+
+  
+
+
+
+ // gettiong dstreet address and state location
+  var username = sessionStorage.getItem('username')
+  let query = querystring.stringify({ username:  username });
+  //const get = { gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
+  const response = await client.get("userdata/?" + query );
+
+  const text = JSON.stringify(response?.data);
+  const myArr = JSON.parse(text);
+
+ // const len = myArr.length to get the amount of entries
+  //console.log(myArr[0].Addressfield);
   setCity(myArr[0].Statefield)
-  if(city == 'TX')
-  {
-    setNum1(0.02);
-  }
-  else if (city != 'TX' )
-  {
-    setNum1(0.04);
-  }
+
   setAdd(myArr[0].Addressfield)
 
 
 
-  sessionStorage.setItem('username', 'masen')
+// getting fuel history
   var username = sessionStorage.getItem('username')
   let query2= querystring.stringify({ username: username });
   //const get = { gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
@@ -94,17 +143,10 @@ export function Signup(props) {
   const myArr2 = JSON.parse(text2);
 
  // const len = myArr.length to get the amount of entries
-  console.log(myArr[0].Statefield);
+  //console.log(myArr2[0].Statefield);
   console.log(myArr2.length)
   setRepeat(myArr2.length)
-  if(repeat == 0)
-  {
-    setNum3(0)
-  }
-  else if(repeat != null)
-  {
-    setNum3(0.01)
-  }
+
   
   
   
@@ -141,18 +183,41 @@ export function Signup(props) {
 
   function calculateSug()
   {
-
+    var loc;
+    var hist;
+    var g;
+    if(city == 'TX')
+    {
+      loc = 0.02;
+    }
+    else if (city != 'TX' )
+    {
+      loc= .04;
+    }
+    if(repeat == 0)
+    {
+      hist =0;
+    }
+    else if(repeat > 0)
+    {
+      hist = 0.01;
+    }
     if(gallons > 1000)
     {
-      setNum2(0.02);
+      g= 0.02;
     }
     else if( gallons <= 1000)
     {
-      setNum2(0.03);
+      g =0.03;
     }
 
-
-      setN(((num1 - num3 + num2 + .1) * 1.50)+1.50);
+      console.log(hist)
+      var price = ((loc- hist + g+ .1) * 1.50)+1.50;
+      setN(price);
+      var tot = gallons *price;
+      return setTotal(tot);
+      
+      
 
 
    // setTotal(gallons * n);
@@ -164,7 +229,7 @@ export function Signup(props) {
   {
   
     calculateSug();
-    calculateTotal();
+    
   }
 
 const [buttonState, setButtonState] = useState(false)
@@ -205,12 +270,14 @@ const [buttonState, setButtonState] = useState(false)
  };
 
  const ButtonValidation = (e) => {
+   console.log(total)
+
   if (total >= 1) {
       setButtonCheck("");
       setButtonval("Pass");
   }
   else{
-      setButtonCheck("Please calculate price(must add gallons first0");
+      setButtonCheck("Please calculate price(must add gallons first");
       setButtonval("Fail");
   }
 };
@@ -264,9 +331,9 @@ const handleSubmit2 = (item) => {
 
 const mainInputValidation = (e) => {
   e.preventDefault();
-  if (galval == "Pass" && dateval == "Pass" && buttonval == "Pass"){
+  if (galval == "Pass" && dateval == "Pass" && total != 0){
       alert("Succesfully Sent")
-      //addNewQuote();
+
       //createItem();
       //handleSubmit2();
       accountValidation2();
@@ -276,6 +343,11 @@ const mainInputValidation = (e) => {
       
   }
   else {
+    console.log("gal" ,galval);
+    console.log("date" ,dateval);
+    console.log("button" ,buttonval);
+
+    
       alert("Unsuccesful");
   }
 };
@@ -339,7 +411,7 @@ const client = axios.create({
             placeholder="Enter number of gallons" />
             <EM>{gallonCheck}</EM>
             
-            <DI>{shipAddress}</DI> 
+            <DI>{data}</DI> 
             <I type="date" onChange={e => setDelivery(e.target.value)}/>
             <EM>{deliveryCheck}</EM>
             <DI>Suggested Price: ${n}
@@ -351,10 +423,14 @@ const client = axios.create({
         </FC>
         <Marginer direction="vertical" margin="1.6em" />
         <SB type="button" 
-        onChange={e => setButtonCheck(e.target.value)}
+        onChange={e => {
+          setButtonCheck(e.target.value);
+          setButtonval(e.target.value);
+        }}
+        
         
         onClick={() =>{
-          componentMount();
+          //componentMount();
             
             calc();
             //calculateTotal();
@@ -362,10 +438,12 @@ const client = axios.create({
             <EM>{buttonCheck}</EM>
     <BC></BC>
       
-        <SB onclass="form-field" onClick={e => {
+        <SB onclass="form-field" 
+        
+        onClick={e => {
           gallonInputValidation(e);
           dateInputValidation(e);
-          ButtonValidation(e);
+         ButtonValidation(e);
           mainInputValidation(e)}}
 
           type="submit">Submit</SB>
