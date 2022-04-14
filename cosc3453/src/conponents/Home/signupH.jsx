@@ -215,6 +215,7 @@ export function Signup(props) {
       var price = ((loc- hist + g+ .1) * 1.50)+1.50;
       setN(price);
       var tot = gallons *price;
+      console.log(tot)
       return setTotal(tot);
       
       

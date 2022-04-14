@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import useDebounce from "../Hooks/useDebounce";
 import { BC, FC, I, ML, SB, BL,EM,J,K } from "./commonPM";
 import { Marginer } from "../marginerTool";
@@ -40,6 +40,28 @@ export function Signup(props) {
     const [ZipCheck, setZipCheck] = useState("");
     const [zipcodepf, setZipCodepf] = useState("");
     useDebounce(()=>zipInputValidation(),1000,[ZipCode])
+
+    useEffect(() => {
+        const fetchData = async () => {
+           const data = await loadin();
+  
+        }
+      
+        fetchData();
+      }, []);
+  
+  
+      function loadin() {
+        var username = sessionStorage.getItem("username");
+    
+        if (username === null){
+          navigate("/Login_Signup");
+        }
+        else 
+        {
+        console.log("Season Storage Used");
+        }
+      }
 
 
     const client = axios.create({

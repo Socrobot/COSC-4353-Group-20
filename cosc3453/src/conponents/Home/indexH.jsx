@@ -103,7 +103,26 @@ display: flex;
 flex-direction: column;
 padding: 0 1.8em;
 `;
-
+export const SB = styled.button`
+width: 100%;
+padding: 11px 40%;
+color: #fff;
+font-size: 15px;
+font-weight: 600;
+border: none;
+border-radius: 100px 100px 100px 100px;
+cursor: pointer;
+transition: all, 240ms ease-in-out;
+background: rgb(9,255,0);
+background: linear-gradient(
+    58deg,
+    rgba(9,255,0,1) 20%,
+    rgba(6,164,0,1) 100%
+    ); 
+&:hover {
+    filter: brightness(1.03);
+}
+`;
 const BDV = {
 expanded: {
     width: "233%",
@@ -215,6 +234,7 @@ export function ABH(props) {
                         <HT>Shipping</HT>
                         <HT>History</HT>
                         <ST>Records of your shipping history.</ST>
+
                     </HC>}
                     {active === "signup" && <HC>
                         <HT>Fuel</HT>
