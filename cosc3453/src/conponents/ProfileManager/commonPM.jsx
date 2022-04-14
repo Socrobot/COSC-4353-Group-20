@@ -20,6 +20,7 @@ font-size: 11px;
 color: rgba(255, 255, 255, 0.8);
 font-weight: 500;
 text-decoration: none;
+padding-bottom: 25px;
 `;
 
 export const BL = styled.a`

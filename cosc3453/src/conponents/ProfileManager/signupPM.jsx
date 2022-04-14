@@ -254,8 +254,7 @@ export function Signup(props) {
         </FC>
         <Marginer direction="vertical" margin="1.6em" />
         <SB type="submit" onClick={e => ( mainInputValidation(e))}>Signup</SB>
-        <ML href="#">
-            Already Have An Account? <BL href="#" onClick={toSignin}>Signin</BL>
+        <ML>
         </ML>
     </BC>
 }
