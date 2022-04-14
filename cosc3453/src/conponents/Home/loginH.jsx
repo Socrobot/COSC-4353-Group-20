@@ -2,10 +2,14 @@ import React, { useContext } from "react";
 import { custTh, GlobalStyle, Std, Sthead, Sbody, Str, Sth, BC, FC, I, ML, SB, BL, EM, Stable } from "./commonH";
 import { Marginer } from "../marginerTool";
 import { AccountContext } from "./accountContextH";
-import {useState} from "react";
+
 import axios from "axios";
 import { Component } from "react";
 import querystring from "querystring";
+import { useNavigate } from "react-router-dom";
+import {useState, useEffect} from "react";
+
+
 
 
 export default class FetchRandomUser extends React.Component{
@@ -19,13 +23,48 @@ export default class FetchRandomUser extends React.Component{
 
 
 export function Login(props) {
-
+  const navigate = useNavigate();
     const { toSignup } = useContext(AccountContext)
     const [dataCheck, setDataCheck]= useState([]);
 
     const client = axios.create({
       baseURL: "http://127.0.0.1:8000/api/"
     });
+
+    useEffect(() => {
+      const fetchData = async () => {
+         const data = await loadin();
+
+      }
+    
+      fetchData();
+    }, []);
+
+   async function clc()
+    {
+      
+        sessionStorage.clear();
+        var username = sessionStorage.getItem("username");
+        console.log(username);
+        loadin();
+        
+        
+        //Navigate("/Login_Signup");
+    }
+
+    function loadin() {
+      var username = sessionStorage.getItem("username");
+  
+      if (username === null){
+        navigate("/Login_Signup");
+      }
+      else 
+      {
+      console.log("Season Storage Used");
+      }
+    }
+
+
     async function componentMount() 
     {
 
@@ -33,7 +72,7 @@ export function Login(props) {
 
 
 
-      //sessionStorage.setItem('username', 'testing@gmail.com')
+      //sessionStorage.setItem('username', 'masen2')
       var username = sessionStorage.getItem('username')
       let query = querystring.stringify({ username: username });
       //const get = { gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
@@ -42,7 +81,7 @@ export function Login(props) {
       const text = JSON.stringify(response?.data);
       const myArr = JSON.parse(text);
      // const len = myArr.length to get the amount of entries
-      console.log(myArr);
+      console.log(username);
       setDataCheck(myArr)
       
       
@@ -109,6 +148,15 @@ const MyTableCompoent = () => (
           }}
 
           type="submit">Get table</SB>
+
+<SB onclass="form-field"  onClick={() =>{
+      clc();;
+
+          }}
+
+          type="submit">Logout</SB>
+        
+                 
     
 
 
@@ -119,5 +167,6 @@ const MyTableCompoent = () => (
         <ML href="#">
             Want to place an order?{" "} <BL href="#" onClick={toSignup}>Request Fuel</BL>
         </ML>
+
     </BC>
 }
