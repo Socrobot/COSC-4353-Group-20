@@ -101,7 +101,7 @@ const ET = {
 
 export function ABPM(props) {
     const [isExpanded, setExpanded] = useState(false);
-    const [active, setActive] = useState("signin");
+    const [active, setActive] = useState("signup");
 
     const playExpandedAnimation = () => {
         setExpanded(true);
