@@ -2,27 +2,102 @@ import React, { useContext } from "react";
 import { custTh, GlobalStyle, Std, Sthead, Sbody, Str, Sth, BC, FC, I, ML, SB, BL, EM, Stable } from "./commonH";
 import { Marginer } from "../marginerTool";
 import { AccountContext } from "./accountContextH";
-import {useState} from "react";
+
+import axios from "axios";
+import { Component } from "react";
+import querystring from "querystring";
+import { useNavigate } from "react-router-dom";
+import {useState, useEffect} from "react";
+
+
+
+
+export default class FetchRandomUser extends React.Component{
+  state = {
+    loading : true
+  }
+};
+
+
 
 
 
 export function Login(props) {
-
+  const navigate = useNavigate();
     const { toSignup } = useContext(AccountContext)
-    const [users, setUsers] = useState([
-        { id: 1, firstName: 'Frank', lastName: 'Murphy', email: 'frank.murphy@test.com', role: 'User' },
-        { id: 2, firstName: 'Vic', lastName: 'Reynolds', email: 'vic.reynolds@test.com', role: 'Admin' },
-        { id: 3, firstName: 'Gina', lastName: 'Jabowski', email: 'gina.jabowski@test.com', role: 'Admin' },
-        { id: 4, firstName: 'Jessi', lastName: 'Glaser', email: 'jessi.glaser@test.com', role: 'User' },
-        { id: 5, firstName: 'Jay', lastName: 'Bilzerian', email: 'jay.bilzerian@test.com', role: 'User' }
-    ]);
+    const [dataCheck, setDataCheck]= useState([]);
 
-    const someArray = [1,2,3,4,5,6,7,8,9];
+    const client = axios.create({
+      baseURL: "http://127.0.0.1:8000/api/"
+    });
+
+    useEffect(() => {
+      const fetchData = async () => {
+         const data = await loadin();
+
+      }
+    
+      fetchData();
+    }, []);
+
+   async function clc()
+    {
+      
+        sessionStorage.clear();
+        var username = sessionStorage.getItem("username");
+        console.log(username);
+        loadin();
+        
+        
+        //Navigate("/Login_Signup");
+    }
+
+    function loadin() {
+      var username = sessionStorage.getItem("username");
+  
+      if (username === null){
+        navigate("/Login_Signup");
+      }
+      else 
+      {
+      console.log("Season Storage Used");
+      }
+    }
+
+
+    async function componentMount() 
+    {
+
+      
+
+
+
+      //sessionStorage.setItem('username', 'masen2')
+      var username = sessionStorage.getItem('username')
+      let query = querystring.stringify({ username: username });
+      //const get = { gallons: gallons, delivery: deliveryDate, sugPrice: n, totalPrice: total}
+      const response = await client.get("fueldata/?" + query );
+    
+      const text = JSON.stringify(response?.data);
+      const myArr = JSON.parse(text);
+     // const len = myArr.length to get the amount of entries
+      console.log(username);
+      setDataCheck(myArr)
+      
+      
+    
+    }
+  
+  
+
 const MyTableCompoent = () => (
+
   <table >
       <thead id="header-fixed">
+
+ 
     <tr>
-      <th>ID</th>
+
       <th>Shipping Date</th>
       <th>Gallons Requested</th>
       <th>Price</th>
@@ -30,16 +105,19 @@ const MyTableCompoent = () => (
     </tr>
     </thead>
 
-    {Object.values(someArray).map((value, index) => {
+    {Object.values(dataCheck).map((value, index) => {
       return (
     <tbody>
         <tr key={index}>
-          <td>{value}</td>
-          <td>{value}</td>
-          <td>{value}</td>
-          <td>{value}</td>
-          <td>{value}</td>
+          <td>{value.gallons}</td>
+           <td>{value.delivery}</td>
+           <td>{value.sugPrice}</td>
+           <td>{value.totalPrice}</td>
+
+
+
         </tr>
+
         </tbody>
       );
     })}
@@ -49,56 +127,37 @@ const MyTableCompoent = () => (
 
 
 
-    const data = React.useMemo(() =>
- [
- {
- name: 'Kim Parrish',
- address: '4420 Valley Street, Garnerville, NY 10923',
- date: '07/11/2020',
- order: '87349585892118',
- },
- {
- name: 'Michele Castillo',
- address: '637 Kyle Street, Fullerton, NE 68638',
- date: '07/11/2020',
- order: '58418278790810',
- },
- {
- name: 'Eric Ferris',
- address: '906 Hart Country Lane, Toccoa, GA 30577',
- date: '07/10/2020',
- order: '81534454080477',
- },
- {
- name: 'Gloria Noble',
- address: '2403 Edgewood Avenue, Fresno, CA 93721',
- date: '07/09/2020',
- order: '20452221703743',
- },
- {
- name: 'Darren Daniels',
- address: '882 Hide A Way Road, Anaktuvuk Pass, AK 99721',
- date: '07/07/2020',
- order: '22906126785176',
- },
- {
- name: 'Ted McDonald',
- address: '796 Bryan Avenue, Minneapolis, MN 55406',
- date: '07/07/2020',
- order: '87574505851064',
- },
- ],
-  []
-)
+  
 
 
 
     return <BC>
+      <div> 
+    
+      </div>
+        
+
             <Stable>
       <GlobalStyle />
     
       <MyTableCompoent />
     </Stable>
+    <SB onclass="form-field"  onClick={() =>{
+      componentMount();
+
+          }}
+
+          type="submit">Get table</SB>
+
+<SB onclass="form-field"  onClick={() =>{
+      clc();;
+
+          }}
+
+          type="submit">Logout</SB>
+        
+                 
+    
 
 
 
@@ -108,5 +167,6 @@ const MyTableCompoent = () => (
         <ML href="#">
             Want to place an order?{" "} <BL href="#" onClick={toSignup}>Request Fuel</BL>
         </ML>
+
     </BC>
 }
