@@ -242,7 +242,7 @@ font-size: 12px;
 
 export const SB = styled.button`
 width: 100%;
-padding: 11px 40%;
+padding: 6px 40%;
 color: #fff;
 font-size: 15px;
 font-weight: 600;

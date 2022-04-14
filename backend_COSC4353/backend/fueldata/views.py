@@ -28,7 +28,3 @@ class FuelDataView(viewsets.ModelViewSet):
 
 
 
-def studentinfo(request):
-    stud = FuelData.objects.all()
-    print("Myoutput",stud)
-    return render(request,'./conponents/Home/new.html',{'stu': stud})

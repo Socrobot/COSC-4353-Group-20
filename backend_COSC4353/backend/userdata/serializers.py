@@ -14,4 +14,4 @@ class UserInfoSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = UserInfo
-        fields = ('Namefield','Addressfield','Address2field','Cityfield','Statefield','ZipCodefield')
+        fields = ('username', 'Namefield','Addressfield','Address2field','Cityfield','Statefield','ZipCodefield')

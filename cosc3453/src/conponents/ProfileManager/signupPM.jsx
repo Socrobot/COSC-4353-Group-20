@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import useDebounce from "../Hooks/useDebounce";
 import { BC, FC, I, ML, SB, BL,EM,J,K } from "./commonPM";
 import { Marginer } from "../marginerTool";
@@ -40,6 +40,28 @@ export function Signup(props) {
     const [ZipCheck, setZipCheck] = useState("");
     const [zipcodepf, setZipCodepf] = useState("");
     useDebounce(()=>zipInputValidation(),1000,[ZipCode])
+
+    useEffect(() => {
+        const fetchData = async () => {
+           const data = await loadin();
+  
+        }
+      
+        fetchData();
+      }, []);
+  
+  
+      function loadin() {
+        var username = sessionStorage.getItem("username");
+    
+        if (username === null){
+          navigate("/Login_Signup");
+        }
+        else 
+        {
+        console.log("Season Storage Used");
+        }
+      }
 
 
     const client = axios.create({
@@ -143,7 +165,7 @@ export function Signup(props) {
     async function accountValidation() {
         try{
             var username = sessionStorage.getItem("username")
-            const post = { username:username, Namefield : Name, Addressfield: Address, Address2field: Address2, Cityfield: City, Statefield: State, ZipCodefield: ZipCode}
+            const post = { username: username, Namefield : Name, Addressfield: Address, Address2field: Address2, Cityfield: City, Statefield: State, ZipCodefield: ZipCode}
             const response = await client.post("userdata/", post);
             const text = JSON.stringify(response?.status);
 
@@ -232,8 +254,7 @@ export function Signup(props) {
         </FC>
         <Marginer direction="vertical" margin="1.6em" />
         <SB type="submit" onClick={e => ( mainInputValidation(e))}>Signup</SB>
-        <ML href="#">
-            Already Have An Account? <BL href="#" onClick={toSignin}>Signin</BL>
+        <ML>
         </ML>
     </BC>
 }
