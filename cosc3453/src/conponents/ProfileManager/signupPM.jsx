@@ -4,13 +4,14 @@ import { BC, FC, I, ML, SB, BL,EM,J,K } from "./commonPM";
 import { Marginer } from "../marginerTool";
 import { AccountContext } from "./accountContextPM";
 import { useNavigate } from "react-router-dom";
+import querystring from "querystring";
 import axios from "axios";
 
 export function Signup(props) {
 
     const navigate = useNavigate();
 
-    const { toSignin } = useContext(AccountContext)
+    const { toSignup } = useContext(AccountContext)
     const [Name, setName] = useState("");
     const [NameCheck, setNameCheck] = useState("");
     const [namepf, setNamepf] = useState("");
@@ -41,10 +42,13 @@ export function Signup(props) {
     const [zipcodepf, setZipCodepf] = useState("");
     useDebounce(()=>zipInputValidation(),1000,[ZipCode])
 
+    const [exists, setExists] = useState("");
+    const [id, setid] = useState("");
+
     useEffect(() => {
         const fetchData = async () => {
            const data = await loadin();
-  
+           const data2 = await ifexists();
         }
       
         fetchData();
@@ -62,6 +66,25 @@ export function Signup(props) {
         console.log("Season Storage Used");
         }
       }
+
+      const ifexists = async () => {
+        var username = sessionStorage.getItem('username')
+        let query = querystring.stringify({ username: username });  
+        const response = await client.get("userdata/?" + query );
+
+        const text = JSON.stringify(response?.data);
+        const myArr = JSON.parse(text);
+        console.log(myArr.length);
+        if(myArr.length === 0){
+            setExists("False")
+        }
+        else if(myArr.length === 1){
+            setExists("True")
+            setid(myArr[0].id)
+        }
+        
+      
+      }  
 
 
     const client = axios.create({
@@ -155,15 +178,48 @@ export function Signup(props) {
         console.log(namepf,addresspf,address2pf,citypf,statepf,zipcodepf);
         if (namepf === "True" && addresspf === "True" && address2pf === "True" && citypf === "True" && statepf === "True" && zipcodepf === "True" ){
             alert("Pass");
-            accountValidation()
+            console.log(exists)
+            if(exists === "False"){
+                accountValidation()
+            }
+            else if(exists === "True"){
+                updateAccount()
+            }
         }
         else {
             alert("Fail");
         }
     };
 
+    async function updateAccount(){
+        //alert("Waiting for update");
+        try{
+            var username = sessionStorage.getItem("username")
+            //let query = querystring.stringify({ : username }); 
+            const post = { id: id, username: username, Namefield : Name, Addressfield: Address, Address2field: Address2, Cityfield: City, Statefield: State, ZipCodefield: ZipCode}
+            const response = await client.put(`userdata/${id}/`, post);
+            
+            const text = JSON.stringify(response?.status);
+
+            if (text.includes('200')){
+                alert("Accepted succesfully");
+                navigate("/Home");
+            }
+        }
+        catch(error) {
+            if (error.response.status === 400) {
+                alert("Info is incorect")
+            }
+            else {
+                alert("Error During Proccessing")
+            }
+        } 
+
+    }
+
     async function accountValidation() {
         try{
+            console.log("working1")
             var username = sessionStorage.getItem("username")
             const post = { username: username, Namefield : Name, Addressfield: Address, Address2field: Address2, Cityfield: City, Statefield: State, ZipCodefield: ZipCode}
             const response = await client.post("userdata/", post);
@@ -253,7 +309,7 @@ export function Signup(props) {
             <EM>{ZipCheck}</EM>
         </FC>
         <Marginer direction="vertical" margin="1.6em" />
-        <SB type="submit" onClick={e => ( mainInputValidation(e))}>Signup</SB>
+        <SB type="submit" onClick={e => ( mainInputValidation(e))}>Save</SB>
         <ML>
         </ML>
     </BC>

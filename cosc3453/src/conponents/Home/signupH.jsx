@@ -395,10 +395,6 @@ const client = axios.create({
             min="1"
             max="100,000"
             values ={values.gallons}
-            onChange={() =>{
-              //componentMount();
-        
-                  }}
             onChange={e => {
             //setN(25);
            // setTotal(120);  
