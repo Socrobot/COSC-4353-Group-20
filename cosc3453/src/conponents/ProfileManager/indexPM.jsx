@@ -140,9 +140,9 @@ export function ABPM(props) {
                         <ST>Please Signin To Continue</ST>
                     </HC>}
                     {active === "signup" && <HC>
-                        <HT>Create</HT>
                         <HT>Account</HT>
-                        <ST>Please Signup To Continue</ST>
+                        <HT>Information</HT>
+                        <ST>Fill in User Information</ST>
                     </HC>}
                 </TC>
                 <IC>
