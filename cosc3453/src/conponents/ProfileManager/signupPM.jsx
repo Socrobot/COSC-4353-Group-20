@@ -81,6 +81,12 @@ export function Signup(props) {
         else if(myArr.length === 1){
             setExists("True")
             setid(myArr[0].id)
+            setName(myArr[0].Namefield)
+            setAddress(myArr[0].Addressfield)
+            setAddress2(myArr[0].Address2field)
+            setCity(myArr[0].Cityfield)
+            setS(myArr[0].Statefield)
+            setZipCode(myArr[0].ZipCodefield)
         }
         
       
@@ -177,7 +183,7 @@ export function Signup(props) {
         e.preventDefault();
         console.log(namepf,addresspf,address2pf,citypf,statepf,zipcodepf);
         if (namepf === "True" && addresspf === "True" && address2pf === "True" && citypf === "True" && statepf === "True" && zipcodepf === "True" ){
-            alert("Pass");
+            //alert("Pass");
             console.log(exists)
             if(exists === "False"){
                 accountValidation()
@@ -202,7 +208,7 @@ export function Signup(props) {
             const text = JSON.stringify(response?.status);
 
             if (text.includes('200')){
-                alert("Accepted succesfully");
+                //alert("Accepted succesfully");
                 navigate("/Home");
             }
         }
@@ -226,7 +232,7 @@ export function Signup(props) {
             const text = JSON.stringify(response?.status);
 
             if (text.includes('201')){
-                alert("Accepted Info");
+                //alert("Accepted Info");
                 navigate("/Home");
             }
         }

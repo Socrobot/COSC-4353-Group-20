@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import psycopg2
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,19 +83,27 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'euvevelx',
-        'USER': 'euvevelx',
-        'PASSWORD': 'fF7Jzr40QUpvygi7RP2MtBYeG3zNifoj',
-        'HOST': 'raja.db.elephantsql.com',
-        'PORT': '5432',
-
-
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'mydatabase'
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'euvevelx',
+            'USER': 'euvevelx',
+            'PASSWORD': 'fF7Jzr40QUpvygi7RP2MtBYeG3zNifoj',
+            'HOST': 'raja.db.elephantsql.com',
+            'PORT': '5432',
+
+
+        }
+    }
 
 
 # Password validation

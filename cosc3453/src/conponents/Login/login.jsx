@@ -74,7 +74,7 @@ export function Login(props) {
             const token = JSON.stringify(response?.data.token);
 
             if (text.includes('200')){
-                alert("Accepted Info");
+                //alert("Accepted Info");
                 sessionStorage.setItem("username", email);
                 sessionStorage.setItem("token", token);
                 navigate("/Home");
