@@ -8,8 +8,9 @@ import random
 
 class UserInfo(models.Model):
 
-    username = models.CharField(max_length=100, default='invaliddata')
-    Namefield = models.CharField(max_length=50, unique=True)
+    #id = models.BigIntegerField(primary_key=True)
+    username = models.CharField(max_length=100, default='invaliddata', unique=True)
+    Namefield = models.CharField(max_length=50)
     Addressfield = models.CharField(max_length=100, unique=True)
     Address2field = models.CharField(max_length=100, blank=True)
     Cityfield = models.CharField(max_length=100)
