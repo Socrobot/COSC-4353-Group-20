@@ -72,7 +72,7 @@ export function Signup(props) {
     const mainInputValidation = (e) => {
             e.preventDefault();
             if (emailpf === "Pass" && passwordpf === "Pass" && passwordpf2 === "Pass"){
-                alert("Pass");
+                //alert("Pass");
                 accountValidation()
             }
             else {
@@ -109,7 +109,7 @@ export function Signup(props) {
             const token = JSON.stringify(response?.data.token);
 
             if (text.includes('201')){
-                alert("Accepted Info");
+                //alert("Accepted Info");
                 sessionStorage.setItem("username", email);
                 await signinValidation();
                 navigate("/UserData");

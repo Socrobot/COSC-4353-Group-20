@@ -34,6 +34,7 @@ export function Login(props) {
     useEffect(() => {
       const fetchData = async () => {
          const data = await loadin();
+         const table = await componentMount();
 
       }
     
@@ -50,6 +51,10 @@ export function Login(props) {
         
         
         //Navigate("/Login_Signup");
+    }
+
+    function editInfo() { 
+      navigate("/UserData");
     }
 
     function loadin() {
@@ -142,27 +147,27 @@ const MyTableCompoent = () => (
     
       <MyTableCompoent />
     </Stable>
+    <BC></BC>    
     <SB onclass="form-field"  onClick={() =>{
-      componentMount();
+      editInfo()
 
           }}
 
-          type="submit">Get table</SB>
-
-<SB onclass="form-field"  onClick={() =>{
-      clc();;
+          type="submit">Edit UserInfo</SB>
+    <BC></BC>
+    <SB onclass="form-field"  onClick={() =>{
+      clc();
 
           }}
 
           type="submit">Logout</SB>
-        
-                 
+
     
 
 
 
         <Marginer direction="vertical" margin={10} />
-        <Marginer direction="vertical" margin="1.6em" />
+        
         
         <ML href="#">
             Want to place an order?{" "} <BL href="#" onClick={toSignup}>Request Fuel</BL>
