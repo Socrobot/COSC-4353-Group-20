@@ -12,8 +12,8 @@ from rest_framework import serializers
 # models test
 class ModelTest(TestCase):
 
-    def create_whatever(self, Namefield = "James clivl", Addressfield = "1003 mians streets", Address2field = "", Cityfield = "Houston", Statefield = "TX", ZipCodefield = "75645" ):
-        return UserInfo.objects.create(Namefield=Namefield, Addressfield = Addressfield, Address2field = Address2field, Cityfield = Cityfield , Statefield = Statefield, ZipCodefield = ZipCodefield)
+    def create_whatever(self, id = 1 ,username = "retrs235534@gmail.com", Namefield = "James clivl", Addressfield = "1003 mians streets", Address2field = "", Cityfield = "Houston", Statefield = "TX", ZipCodefield = "75645" ):
+        return UserInfo.objects.create(id=id,username=username,Namefield=Namefield, Addressfield = Addressfield, Address2field = Address2field, Cityfield = Cityfield , Statefield = Statefield, ZipCodefield = ZipCodefield)
 
     def test_whatever_creation(self):
         w = self.create_whatever()
@@ -27,6 +27,8 @@ class ModelTest(TestCase):
 class SerializerTest2(TestCase):
     def setUp(self):
         self.user_attributes = {
+            "id": 1,
+            "username": "retrs235534@gmail.com",
             "Namefield": "James clivl",
             "Addressfield": "1003 mians streets", 
             "Address2field": "", 
@@ -36,6 +38,8 @@ class SerializerTest2(TestCase):
         }
 
         self.serializer_data = {
+            "id": 2,
+            "username": "retrs2334@gmail.com",
             "Namefield": "James clvl",
             "Addressfield": "1003 mian stryeets", 
             "Address2field": "y", 
@@ -51,7 +55,7 @@ class SerializerTest2(TestCase):
     def test_contains_expected_fields(self):
         data = self.serializer.data
 
-        self.assertEqual(set(data.keys()), set(['Namefield', 'Addressfield', 'Address2field', 'Cityfield', 'Statefield','ZipCodefield']))
+        self.assertEqual(set(data.keys()), set(['id','username','Namefield', 'Addressfield', 'Address2field', 'Cityfield', 'Statefield','ZipCodefield']))
 
     def test_Name_field_content(self):
         data = self.serializer.data
@@ -90,3 +94,8 @@ class SerializerTest2(TestCase):
         data = self.serializer.data
 
         self.assertEqual(data['username'], self.user_attributes['username']) 
+
+    def test_id_field_content(self):
+        data = self.serializer.data
+
+        self.assertEqual(data['id'], self.user_attributes['id'])    
