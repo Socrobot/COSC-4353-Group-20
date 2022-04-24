@@ -333,7 +333,7 @@ const handleSubmit2 = (item) => {
 const mainInputValidation = (e) => {
   e.preventDefault();
   if (galval == "Pass" && dateval == "Pass" && total != 0){
-      alert("Succesfully Sent")
+      //alert("Succesfully Sent")
 
       //createItem();
       //handleSubmit2();
@@ -368,7 +368,7 @@ const client = axios.create({
       const text = JSON.stringify(response);
 
       if (text.includes('201')){
-          alert("Accepted Info");
+          alert("Order Sent");
           
       }
     }
