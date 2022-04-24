@@ -11,8 +11,8 @@ from rest_framework import serializers
 # models test
 class ModelTest(TestCase):
 
-    def create_whatever(self, gallons="2", delivery="2022-07-07", sugPrice = "12", totalPrice = "100"):
-        return FuelData.objects.create(gallons=gallons, delivery=delivery, sugPrice=sugPrice, totalPrice=totalPrice)
+    def create_whatever(self, username = "Outofstate@gmail.com", gallons="2", delivery="2022-07-07", sugPrice = "12", totalPrice = "100"):
+        return FuelData.objects.create(username=username,gallons=gallons, delivery=delivery, sugPrice=sugPrice, totalPrice=totalPrice)
 
     def test_whatever_creation(self):
         w = self.create_whatever()
@@ -26,6 +26,7 @@ class ModelTest(TestCase):
 class SerializerTest2(TestCase):
     def setUp(self):
         self.fuel_attributes = {
+            'username': "Outofstate@gmail.com",
             'gallons': 10,
             'delivery': "2022-07-05",
             'sugPrice': 12.50,
@@ -33,6 +34,7 @@ class SerializerTest2(TestCase):
         }
 
         self.serializer_data = {
+            'username': "Outofate@gmail.com",
             'gallons': 98,
             'delivery': "2022-12-11",
             'sugPrice': 35.60,
@@ -46,7 +48,7 @@ class SerializerTest2(TestCase):
     def test_contains_expected_fields(self):
         data = self.serializer.data
 
-        self.assertEqual(set(data.keys()), set(['gallons', 'delivery', 'sugPrice', 'totalPrice']))
+        self.assertEqual(set(data.keys()), set(['username','gallons', 'delivery', 'sugPrice', 'totalPrice']))
 
     def test_gallon_field_content(self):
         data = self.serializer.data
@@ -64,6 +66,11 @@ class SerializerTest2(TestCase):
         data = self.serializer.data
 
         self.assertEqual(data['sugPrice'], self.fuel_attributes['sugPrice'])
+
+    def test_username_field_content(self):
+        data = self.serializer.data
+
+        self.assertEqual(data['username'], self.fuel_attributes['username'])
         
 
     def test_totPrice_field_content(self):
@@ -71,11 +78,3 @@ class SerializerTest2(TestCase):
 
         self.assertEqual(data['totalPrice'], self.fuel_attributes['totalPrice'])
 
-
-    def test_size_upper_bound(self):
-        self.serializer_data['totalPrice'] = 123456789
-
-        serializer = FuelDataSerializer(data=self.serializer_data)
-
-        self.assertFalse(serializer.is_valid())
-        self.assertEqual(set(serializer.errors), set(['totalPrice']))
